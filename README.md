@@ -4,4 +4,5 @@ A time tracking application.
 # Todo
  * Change asthetics[in progress]
  * Change todo notes asthetics
- * Make todo drag and droppable
+ * Add backend
+ * Improve code quality
