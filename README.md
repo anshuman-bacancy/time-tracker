@@ -5,4 +5,4 @@ A time tracking application.
  * Change asthetics[in progress]
  * Add backend
  * Improve code quality
- * Prevent adding of duplicate notes on drop event
+ * Show at what time the timer was started
