@@ -1,6 +1,7 @@
 import React, {useState}  from "react";
 import uuid from "react-uuid";
 import Todo from "./Todo/todo";
+import "./todos.css";
 
 function Todos() {
   const [todoMsg, setTodoMsg] = useState("");
@@ -38,7 +39,10 @@ function Todos() {
             }
           }
           task.status = status;
-          setInProgressTasks([...inProgressTasks].concat(task))
+          // check for duplicates
+          if (!inProgressTasks.includes(task)) {
+            setInProgressTasks([...inProgressTasks].concat(task))
+          } 
         }
 
         // where to drop
@@ -46,14 +50,13 @@ function Todos() {
           console.log("current task status: ", task.status)
           // remove from previous task list; checking previous state
           if (task.status === "New") {
-            console.log("hi")
             var newTasksCopy = [...newTasks];
             var idx = newTasksCopy.indexOf(task, 0)
             if (idx !== -1) {
               newTasksCopy.splice(idx, 1)
               setNewTasks(newTasksCopy)
             }
-          } else if (task.status === "InProgress") { // not working
+          } else if (task.status === "InProgress") {
             var inProgressTasksCopy = [...inProgressTasks];
             var idx = inProgressTasksCopy.indexOf(task, 0)
             if (idx !== -1) {
@@ -62,7 +65,10 @@ function Todos() {
             }
           }
           task.status = status;
-          setCompletedTasks([...completedTasks].concat(task))
+          // check for duplicates
+          if (!completedTasks.includes(task)) {
+            setCompletedTasks([...completedTasks].concat(task))
+          } 
         }
       }
     }) 
@@ -99,7 +105,7 @@ function Todos() {
         <div className="container">
           <div className="row">
             <div className="col" style={{minHeight: "", backgroundColor: "#FFD580", borderRadius: "10px", margin: "15px", border: "2px solid black"}}>
-              New tasks
+              <span className="taskHeader">New tasks</span>
               {
                 newTasks.map((task) => {
                   return <Todo key={task.id} todo={task} />
@@ -107,7 +113,7 @@ function Todos() {
               }
             </div>
             <div className="col" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, "InProgress")} style={{backgroundColor: "yellow", borderRadius: "10px", margin: "15px", border: "2px solid black"}}>
-              In Progress
+              <span className="taskHeader">In Progress</span>
               {
                 inProgressTasks.map((task) => {
                   return <Todo key={task.id} todo={task} />
@@ -115,7 +121,7 @@ function Todos() {
               }
             </div>
             <div className="col" onDragOver={(event) => onDragOver(event)} onDrop={(event) => onDrop(event, "Completed")} style={{backgroundColor: "lightgreen", borderRadius: "10px", margin: "15px", border: "2px solid black"}}>
-              Completed
+              <span className="taskHeader">Completed</span>
               {
                 completedTasks.map((task) => {
                   return <Todo key={task.id} todo={task} />
@@ -124,12 +130,10 @@ function Todos() {
             </div>
           </div>
         </div> 
-
       </center>
     </div>
     </>
   )
-
 }
 
 export default Todos;
