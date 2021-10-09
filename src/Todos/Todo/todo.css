@@ -83,3 +83,27 @@
     font-size: 1.875rem;
   }
 }
+
+.todoNote {
+  font-weight: bold;
+  font-family: "Reenie Beanie";
+  font-size: 40px;
+  border: solid 2px;
+  border-radius: 15px;
+  margin: 5px;
+  min-height: 30px;
+  overflow: hidden;
+}
+
+.todoNoteDragging {
+  /* background-color: transparent; */
+  opacity: 0.2;
+  font-weight: bold;
+  font-family: "Reenie Beanie";
+  font-size: 40px;
+  border: solid 2px;
+  border-radius: 15px;
+  margin: 5px;
+  min-height: 30px;
+  overflow: hidden;
+}
