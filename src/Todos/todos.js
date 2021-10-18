@@ -32,7 +32,7 @@ function Todos() {
             }
           } else if (task.status === "Completed") { // not working
             // make a copy of newTasks
-            var tasksCopy = [...completedTasks];
+            tasksCopy = [...completedTasks];
             idx = tasksCopy.indexOf(task, 0)
             if (idx !== -1) {
               tasksCopy.splice(idx, 1)
