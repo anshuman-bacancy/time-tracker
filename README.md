@@ -1,5 +1,5 @@
 # Description
-A time tracking application.
+A time tracking application with task management.
 
 # Todo
  * Change asthetics[in progress]
