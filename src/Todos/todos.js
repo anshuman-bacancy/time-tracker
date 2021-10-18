@@ -9,6 +9,7 @@ function Todos() {
   const [newTasks, setNewTasks] = useState([]);
   const [inProgressTasks, setInProgressTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
+  var tasksCopy, idx;
 
   function todoMsgHandler(event) {
     setTodoMsg(event.target.value);
@@ -23,19 +24,19 @@ function Todos() {
           // remove from previous task list; checking previous state
           if (task.status === "New") {
             // making a copy of newtasks to update the state
-            var newTasksCopy = [...newTasks];
-            var idx = newTasksCopy.indexOf(task, 0)
+            tasksCopy = [...newTasks];
+            idx = tasksCopy.indexOf(task, 0)
             if (idx !== -1) {
-              newTasksCopy.splice(idx, 1)
-              setNewTasks(newTasksCopy)
+              tasksCopy.splice(idx, 1)
+              setNewTasks(tasksCopy)
             }
           } else if (task.status === "Completed") { // not working
             // make a copy of newTasks
-            var completedTasksCopy = [...completedTasks];
-            var idx = completedTasksCopy.indexOf(task, 0)
+            var tasksCopy = [...completedTasks];
+            idx = tasksCopy.indexOf(task, 0)
             if (idx !== -1) {
-              completedTasksCopy.splice(idx, 1)
-              setCompletedTasks(completedTasksCopy)
+              tasksCopy.splice(idx, 1)
+              setCompletedTasks(tasksCopy)
             }
           }
           task.status = status;
@@ -50,18 +51,18 @@ function Todos() {
           console.log("current task status: ", task.status)
           // remove from previous task list; checking previous state
           if (task.status === "New") {
-            var newTasksCopy = [...newTasks];
-            var idx = newTasksCopy.indexOf(task, 0)
+            tasksCopy = [...newTasks];
+            idx = tasksCopy.indexOf(task, 0)
             if (idx !== -1) {
-              newTasksCopy.splice(idx, 1)
-              setNewTasks(newTasksCopy)
+              tasksCopy.splice(idx, 1)
+              setNewTasks(tasksCopy)
             }
           } else if (task.status === "InProgress") {
-            var inProgressTasksCopy = [...inProgressTasks];
-            var idx = inProgressTasksCopy.indexOf(task, 0)
+            tasksCopy = [...inProgressTasks];
+            idx = tasksCopy.indexOf(task, 0)
             if (idx !== -1) {
-              inProgressTasksCopy.splice(idx, 1)
-              setInProgressTasks(inProgressTasksCopy)
+              tasksCopy.splice(idx, 1)
+              setInProgressTasks(tasksCopy)
             }
           }
           task.status = status;
