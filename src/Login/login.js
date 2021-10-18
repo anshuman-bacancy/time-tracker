@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import GoogleLogin from "react-google-login";
 import { useHistory } from "react-router";
 import "./login.css";
@@ -11,6 +11,7 @@ function Login() {
     console.log("User name: ", response.profileObj.name)
     if (response.profileObj) {
       localStorage.setItem("userName", response.profileObj.name)
+      localStorage.setItem("userImg", response.profileObj.imageUrl)
       history.push("/dash");
     } else {
       history.push("/")
