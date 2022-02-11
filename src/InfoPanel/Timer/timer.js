@@ -8,8 +8,17 @@ function Timer() {
   var [second, setSecond] = useState(0);
   const [isStart, setIsStart] = useState(true);
   var [timerObj, setTimerObj] = useState(0);
+  var [timerStartTime, setTimerStartTime] = useState();
 
   function handleStart() {
+    var today = new Date();
+    if (!timerStartTime) {
+      setTimerStartTime(today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds());
+      localStorage.setItem("timerStartTime", timerStartTime)
+    } else {
+      setTimerStartTime(localStorage.getItem("timerStartTime"));
+    }
+
     setIsStart((state) => !state)
     if (isStart === true) {
       startTimer();
@@ -40,7 +49,7 @@ function Timer() {
       } else {
         setMinute(minute)
       }
-    } else{ 
+    } else { 
       setSecond(second);
     }
   }
