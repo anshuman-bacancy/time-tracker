@@ -1,11 +1,12 @@
 import React, {useState} from "react";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import './timer.css';
 
 
 function Timer() {
-  var [hour, setHour] = useState(0);
-  var [minute, setMinute] = useState(0);
-  var [second, setSecond] = useState(0);
+  var [hour, setHour] = useLocalStorage("hour", 0)
+  var [minute, setMinute] = useLocalStorage("minute", 0);
+  var [second, setSecond] = useLocalStorage("second", 0);
   const [isStart, setIsStart] = useState(true);
   var [timerObj, setTimerObj] = useState(0);
   var [timerStartTime, setTimerStartTime] = useState();
@@ -55,7 +56,7 @@ function Timer() {
   }
 
   function startTimer() {
-    setTimerObj(setInterval(timer, 1000))
+    setTimerObj(setInterval(timer, 100))
   }
 
   function stopTimer() {
