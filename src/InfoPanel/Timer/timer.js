@@ -1,4 +1,6 @@
 import React, {useState} from "react";
+import './timer.css';
+
 
 function Timer() {
   var [hour, setHour] = useState(0);
@@ -6,8 +8,17 @@ function Timer() {
   var [second, setSecond] = useState(0);
   const [isStart, setIsStart] = useState(true);
   var [timerObj, setTimerObj] = useState(0);
+  var [timerStartTime, setTimerStartTime] = useState();
 
   function handleStart() {
+    var today = new Date();
+    if (!timerStartTime) {
+      setTimerStartTime(today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds());
+      localStorage.setItem("timerStartTime", timerStartTime)
+    } else {
+      setTimerStartTime(localStorage.getItem("timerStartTime"));
+    }
+
     setIsStart((state) => !state)
     if (isStart === true) {
       startTimer();
@@ -38,7 +49,7 @@ function Timer() {
       } else {
         setMinute(minute)
       }
-    } else{ 
+    } else { 
       setSecond(second);
     }
   }
@@ -55,13 +66,13 @@ function Timer() {
     <>
     <div className="container">
       <center>
-        <div className="border border-dark border-2" style={{width: "20%", margin: "30px"}}>
-          <div style={{fontSize: "75px"}}>{hour}:{minute}:{second}</div>
+        <div className="border border-dark border-2 timeBorder">
+          <div className="timeDigits">{hour}:{minute}:{second}</div>
         </div>
 
-        <div className="row" style={{width: "30%", paddingBottom: "20px"}}>
-          <div className="col"><button className="btn btn-dark btn-lg" style={{}} onClick={handleStart}>{isStart ? "Start" : "Stop"}</button></div>
-          <div className="col"><button className="btn btn-dark btn-lg" onClick={handleReset} disabled={hour===0 && minute===0 && second===0}>Reset</button></div>
+        <div className="row timeControls">
+          <div className="col"><button className="btn btn-dark btn-lg b" onClick={handleStart}>{isStart ? "Start" : "Stop"}</button></div>
+          <div className="col"><button className="btn btn-dark btn-lg b" onClick={handleReset} disabled={hour===0 && minute===0 && second===0}>Reset</button></div>
         </div>
       </center>
     </div>
