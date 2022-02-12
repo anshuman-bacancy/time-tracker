@@ -36,7 +36,6 @@ function Timer() {
     setHour(0);
     setMinute(0);
     setSecond(0);
-    console.log("second: ", second)
   }
 
   function timer() {
@@ -53,7 +52,6 @@ function Timer() {
       }
     } else { 
       setSecond(second);
-      console.log("second ", second)
     }
   }
 

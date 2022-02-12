@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(function() {
-    let savedValue = localStorage.getItem(key);
-    savedValue = JSON.parse(savedValue)
+    let savedValue = JSON.parse(localStorage.getItem(key));
+    console.log("saved value: ", savedValue)
     if (savedValue) {
       return savedValue;
     }
