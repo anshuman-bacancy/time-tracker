@@ -1,6 +1,8 @@
 import React, {useState}  from "react";
 import uuid from "react-uuid";
 import Todo from "./Todo/todo";
+import Files from 'react-files'
+
 import "./todos.css";
 
 function Todos() {
@@ -13,6 +15,18 @@ function Todos() {
 
   function todoMsgHandler(event) {
     setTodoMsg(event.target.value);
+  }
+  function onFilesChange (files) {
+    if (files.length === 1) {
+      console.log(files[0].name)
+    } else {
+      files.forEach(function(file) {
+        console.log(file.name)
+      })
+    }
+  }
+  function onFilesError (error, file) {
+    // waste land... 
   }
 
   function onDrop(event, status) {
@@ -100,6 +114,20 @@ function Todos() {
           <input type="text" onChange={todoMsgHandler} value={todoMsg} autoFocus className="form-control" placeholder="Add a todo..." aria-label="Add a todo..." aria-describedby="basic-addon2" /> 
           <div className="input-group-append">
             <button onClick={addTodoHandler} className="btn btn-dark" type="button" disabled={todoMsg === ""}>Add</button>
+          </div>
+          <div className="input-group-append">
+            <Files
+              className='form-control'
+              onChange={onFilesChange}
+              onError={onFilesError}
+              accepts={['image/*']}
+              multiple
+              maxFileSize={10000000}
+              minFileSize={0}
+              clickable
+            >
+              Upload a picture?
+            </Files>
           </div>
         </div>
 
