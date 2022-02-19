@@ -1,5 +1,5 @@
 import React from "react";
-import "./todo.css";
+import "./Todo.css";
 
 function Todo({todo}) {
   function dragStart(event, todo) {
