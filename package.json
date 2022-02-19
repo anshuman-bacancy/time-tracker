@@ -24,6 +24,7 @@
     "react-skylight": "^0.5.1",
     "react-stickies": "0.0.16",
     "react-uuid": "^1.0.2",
+    "shortid": "^2.2.16",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
