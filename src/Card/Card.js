@@ -1,26 +1,44 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { FloatingLabel, Modal, Button, Form } from 'react-bootstrap';
+import { getCurrentDate, getShortID } from '../Helper/Helper';
 
 function Card(props) {
-  var date = new Date();
-  var today = date.getDate();
-  var month = date.getMonth() + 1
-  var year = date.getFullYear()
-
+  const currentDate = getCurrentDate(); 
   const initialValues = {
-    "taskDate": String(today) + "/" + String(month) + "/" + String(year),
-    "taskTitle": "",
-    "taskDescription": ""
+    taskId: "",
+    taskStatus: "",
+    taskDate: currentDate,
+    taskTitle: "",
+    taskDescription: ""
   }
 
-  const [values, setValue] = useState(initialValues);
+  const [task, setTask] = useState(initialValues);
 
   function handleInput(event) {
-    setValue({
-      ...values,
+    setTask({
+      ...task,
+      taskId: getShortID(),
+      taskStatus: "New",
       [event.target.name]: event.target.value,
     })
-    console.log(values)
+  }
+
+  function saveCard() {
+    props.setTodoList([...props.todoList].concat(task));
+    props.setNewTasks([...props.newTasks].concat(task));
+  }
+
+  function onFilesChange(files) {
+    if (files.length === 1) {
+      console.log(files[0].name);
+    } else {
+      files.forEach(function(file) {
+        console.log(file.name);
+      })
+    }
+  }
+  function onFilesError (error, file) {
+    // waste land... 
   }
 
   return (
@@ -42,9 +60,8 @@ function Card(props) {
         controlId="floatingInput"
         label="Enter task title..."
         className="mb-3"
-        name="taskTitle"
       >
-        <Form.Control type="text" placeholder="Fix all network bugs..." onChange={handleInput} />
+        <Form.Control type="text" name="taskTitle" placeholder="Fix all network bugs..." onChange={handleInput} />
       </FloatingLabel>
 
       <FloatingLabel controlId="taskDescription" label="Enter task description...">
@@ -59,6 +76,7 @@ function Card(props) {
     </Modal.Body>
 
     <Modal.Footer>
+      <Button onClick={saveCard}>Save</Button>
       <Button onClick={props.closeModal}>Close</Button>
     </Modal.Footer>
   </Modal>

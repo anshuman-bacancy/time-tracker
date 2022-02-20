@@ -1,20 +1,28 @@
 import React from "react";
-import "./Todo.css";
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button';
 
-function Todo({todo}) {
-  function dragStart(event, todo) {
+function TodoCard(props) {
+  function dragStart(event, task) {
     // event.preventDefault();
-    console.log("dragging ", todo.msg)
-    event.dataTransfer.setData("note", todo.id)
+    console.log("dragging ", task.taskId)
+    event.dataTransfer.setData("task", task.taskId)
   }
 
   return (
     <>
-    <div className="todoNote" draggable onDragStart={(e) => dragStart(e, todo)}>
-      <div>{todo.msg}</div>
-    </div>
+    <Card draggable onDragStart={(e) => dragStart(e, props.task)}>
+      <Card.Header as="h5">Featured</Card.Header>
+      <Card.Body>
+        <Card.Title>{props.task.taskTitle}</Card.Title>
+        <Card.Text>
+          {props.task.taskDescription}
+        </Card.Text>
+        <Button variant="danger">Delete</Button>
+      </Card.Body>
+    </Card>
     </>
   )
 }
 
-export default Todo;
+export default TodoCard;

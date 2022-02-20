@@ -1,13 +1,10 @@
 import React, {useState}  from "react";
-import uuid from "react-uuid";
-import Todo from "./Todo/Todo";
-import Files from 'react-files'
+import TodoCard from "./Todo/Todo";
 import Card from '../Card/Card';
 
 import "./Todos.css";
 
 function Todos() {
-  const [todoMsg, setTodoMsg] = useState("");
   const [todoList, setTodoList] = useState([]);
   const [newTasks, setNewTasks] = useState([]);
   const [inProgressTasks, setInProgressTasks] = useState([]);
@@ -23,30 +20,16 @@ function Todos() {
     setModalOpen(false);
   }
 
-  function todoMsgHandler(event) {
-    setTodoMsg(event.target.value);
-  }
-  function onFilesChange (files) {
-    if (files.length === 1) {
-      console.log(files[0].name);
-    } else {
-      files.forEach(function(file) {
-        console.log(file.name);
-      })
-    }
-  }
-  function onFilesError (error, file) {
-    // waste land... 
-  }
 
   function onDrop(event, status) {
-    var taskId = event.dataTransfer.getData("note");
+    var taskId = event.dataTransfer.getData("task");
+    console.log("dropping ", taskId)
     todoList.forEach((task) => {
-      if (task.id === taskId) {
+      if (task.taskId === taskId) {
         // where to drop
         if (status === "InProgress") {
           // remove from previous task list; checking previous state
-          if (task.status === "New") {
+          if (task.taskStatus === "New") {
             // making a copy of newtasks to update the state
             tasksCopy = [...newTasks];
             idx = tasksCopy.indexOf(task, 0);
@@ -54,7 +37,7 @@ function Todos() {
               tasksCopy.splice(idx, 1);
               setNewTasks(tasksCopy);
             }
-          } else if (task.status === "Completed") { // not working
+          } else if (task.taskStatus === "Completed") { // not working
             // make a copy of newTasks
             tasksCopy = [...completedTasks];
             idx = tasksCopy.indexOf(task, 0)
@@ -63,7 +46,7 @@ function Todos() {
               setCompletedTasks(tasksCopy);
             }
           }
-          task.status = status;
+          task.taskStatus = status;
           // check for duplicates
           if (!inProgressTasks.includes(task)) {
             setInProgressTasks([...inProgressTasks].concat(task));
@@ -72,16 +55,16 @@ function Todos() {
 
         // where to drop
         if (status === "Completed") {
-          console.log("current task status: ", task.status);
+          console.log("current task status: ", task.taskStatus);
           // remove from previous task list; checking previous state
-          if (task.status === "New") {
+          if (task.taskStatus === "New") {
             tasksCopy = [...newTasks];
             idx = tasksCopy.indexOf(task, 0);
             if (idx !== -1) {
               tasksCopy.splice(idx, 1);
               setNewTasks(tasksCopy);
             }
-          } else if (task.status === "InProgress") {
+          } else if (task.taskStatus === "InProgress") {
             tasksCopy = [...inProgressTasks];
             idx = tasksCopy.indexOf(task, 0);
             if (idx !== -1) {
@@ -89,7 +72,7 @@ function Todos() {
               setInProgressTasks(tasksCopy);
             }
           }
-          task.status = status;
+          task.taskStatus = status;
           // check for duplicates
           if (!completedTasks.includes(task)) {
             setCompletedTasks([...completedTasks].concat(task));
@@ -103,40 +86,13 @@ function Todos() {
     event.preventDefault();
   }
 
-  function addTodoHandler() {
-    var today = new Date();
-    var todoObj = {
-      id: uuid(),
-      msg: todoMsg,
-      status: "New",
-      date: today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-    }
-    setTodoList([...todoList].concat(todoObj));
-    setNewTasks([...newTasks].concat(todoObj));
-    setTodoMsg("");
-  }
-
   return (
     <>
     <div className="container">
       <center>
         <div className="input-group mb-3" style={{width: "300px"}}>
           <button onClick={openModal} className="btn btn-dark" type="button">Add a card?</button>
-          <Card isModalOpen={isModalOpen} closeModal={closeModal} />
-          {/* <div className="input-group-append">
-            <Files
-              className='form-control'
-              onChange={onFilesChange}
-              onError={onFilesError}
-              accepts={['image/*']}
-              multiple
-              maxFileSize={10000000}
-              minFileSize={0}
-              clickable
-            >
-              Upload a picture?
-            </Files>
-          </div> */}
+          <Card isModalOpen={isModalOpen} closeModal={closeModal} setNewTasks={setNewTasks} newTasks={newTasks} setTodoList={setTodoList} todoList={todoList} />
         </div>
 
         <div className="container">
@@ -145,7 +101,7 @@ function Todos() {
               <span className="taskHeader">New tasks</span>
               {
                 newTasks.map((task) => {
-                  return <Todo key={task.id} todo={task} />
+                  return <TodoCard key={task.taskId} task={task} />
                 })
               }
             </div>
@@ -153,7 +109,7 @@ function Todos() {
               <span className="taskHeader">In Progress</span>
               {
                 inProgressTasks.map((task) => {
-                  return <Todo key={task.id} todo={task} />
+                  return <TodoCard key={task.taskId} task={task} />
                 })
               }
             </div>
@@ -161,7 +117,7 @@ function Todos() {
               <span className="taskHeader">Completed</span>
               {
                 completedTasks.map((task) => {
-                  return <Todo key={task.id} todo={task} />
+                  return <TodoCard key={task.taskId} task={task} />
                 })
               }
             </div>
